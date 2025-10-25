@@ -1,10 +1,15 @@
-export interface HousingLocationInfo {
-	id: number;
-	name: string;
-	city: string;
-	state: string;
-	photo: string;
-	availableUnits: number;
-	wifi: boolean;
-	laundry: boolean;
+export class HousingLocationInfo {
+	id: string;
+
+	constructor(
+		public name: string,
+		public city: string,
+		public state: string,
+		public photo: string,
+		public availableUnits: number,
+		public wifi: boolean,
+		public laundry: boolean
+	) {
+		this.id = crypto.randomUUID().substring(0, 8);
+	}
 }
