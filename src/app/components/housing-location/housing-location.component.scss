@@ -1,4 +1,5 @@
 .listing {
+    cursor: pointer;
     background: var(--accent-color);
     border-radius: 10px;
     padding-bottom: 10px;
@@ -34,6 +35,7 @@
 
 
 section.listing a {
+    cursor: pointer;
     padding-left: 20px;
     text-decoration: none;
     color: var(--primary-color);

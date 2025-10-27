@@ -10,6 +10,6 @@ export class HousingLocationInfo {
 		public wifi: boolean,
 		public laundry: boolean
 	) {
-		this.id = crypto.randomUUID().substring(0, 8);
+		this.id = crypto.randomUUID().substring(0, 64);
 	}
 }

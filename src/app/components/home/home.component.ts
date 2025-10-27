@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocationInfo } from '../../models/housing-location.models';
 import { HousingLocationService } from '../../services/housing-location.service';
@@ -10,11 +10,11 @@ import { HousingLocationService } from '../../services/housing-location.service'
 	styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-	housingLocations!: HousingLocationInfo[];
+	housingLocationList!: HousingLocationInfo[];
 
 	constructor(private housingLocationService: HousingLocationService) {}
 
 	ngOnInit() {
-		this.housingLocations = this.housingLocationService.getAllHousingLocations();
+		this.housingLocationList = this.housingLocationService.getAllHousingLocations();
 	}
 }

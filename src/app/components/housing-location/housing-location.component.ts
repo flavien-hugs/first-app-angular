@@ -1,5 +1,6 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, inject, Inject, Input, input, OnInit } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location.models';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
 	selector: 'app-housing-location',
@@ -9,4 +10,14 @@ import { HousingLocationInfo } from '../../models/housing-location.models';
 })
 export class HousingLocationComponent {
 	@Input() housingLocation!: HousingLocationInfo;
+
+	route: ActivatedRoute = inject(ActivatedRoute);
+	housingLocationId: string | null = null;
+
+	constructor(private router: Router) {}
+
+	onViewHousingLocationDetail() {
+		this.housingLocationId = this.housingLocation.id;
+		this.router.navigateByUrl(`/details/${this.housingLocationId}`);
+	}
 }
