@@ -15,6 +15,7 @@ body {
 }
 
 button.primary {
+    cursor: pointer !important;
     padding: 10px;
     border: solid 1px var(--primary-color);
     background: var(--primary-color);
