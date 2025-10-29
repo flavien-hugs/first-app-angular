@@ -3,42 +3,39 @@ import { HousingLocationInfo } from '../models/housing-location.models';
 
 @Injectable({ providedIn: 'root' })
 export class HousingLocationService {
-	readonly baseUrl: string = 'https://angular.dev/assets/images/tutorials/common';
+	readonly baseUrl: string = 'http://localhost:3000/locations';
 
-	private housingLocationList: HousingLocationInfo[] = [];
-
-	constructor() {
-		this.housingLocationList = Array.from({ length: 10 }, (_, i) => this.createRandomHouse(i));
+	async getAllHousingLocations(): Promise<HousingLocationInfo[]> {
+		const response = await fetch(this.baseUrl);
+		if (!response.ok) {
+			console.error(`HTTP Error: ${response.status} ${response.statusText}`);
+			return [];
+		}
+		return (await response.json()) ?? [];
 	}
 
-	private createRandomHouse(index: number): HousingLocationInfo {
-		const cities = ['Chicago', 'Seattle', 'Austin', 'Santa Monica', 'New York'];
-		const states = ['IL', 'WA', 'TX', 'CA', 'NY'];
-		const names = ['Acme', 'Lorem Ipsum', 'Sunrise', 'Green Valley', 'Maple Residency'];
-		const photos = [
-			'bernard-hermant-CLKGGwIBTaY-unsplash.jpg',
-			'brandon-griggs-wR11KBaB86U-unsplash.jpg',
-		];
+	async getHousingLocationById(id: number): Promise<HousingLocationInfo | undefined> {
+		try {
+			const response = await fetch(`${this.baseUrl}?id=${id}`);
 
-		const random = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+			if (!response.ok) {
+				console.error(`Erreur HTTP: ${response.status} ${response.statusText}`);
+				return undefined;
+			}
 
-		return new HousingLocationInfo(
-			`${random(names)} Housing ${index + 1}`,
-			random(cities),
-			random(states),
-			`${this.baseUrl}/${random(photos)}`,
-			Math.floor(Math.random() * 5) + 1,
-			Math.random() < 0.5,
-			Math.random() < 0.7
-		);
-	}
+			const locationData = await response.json();
 
-	getAllHousingLocations(): HousingLocationInfo[] {
-		return [...this.housingLocationList];
-	}
-
-	getHousingLocationById(id: string): HousingLocationInfo | null {
-		return this.housingLocationList.find((h) => h.id === id) ?? null;
+			// Assuming the API returns an array, we take the first element
+			if (Array.isArray(locationData) && locationData.length > 0) {
+				return locationData[0] as HousingLocationInfo;
+			} else {
+				console.warn(`Housing location not found for id=${id}`);
+				return undefined;
+			}
+		} catch (error) {
+			console.error(`Error fetching housing location:`, error);
+			return undefined;
+		}
 	}
 
 	async submitApplication(firstName: string, lastName: string, email: string): Promise<void> {
