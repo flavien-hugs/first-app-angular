@@ -1,11 +1,11 @@
 <section>
     <form action="">
-        <input type="text" placeholder="Filter by city" />
-        <button type="submit" class="primary">Search</button>
+        <input type="text" placeholder="Filter by city" #filter />
+        <button type="button" class="primary" (click)="filterResults(filter.value)">Search</button>
     </form>
 
     <section class="results">
-        @for(housingLocationElement of housingLocationList; track housingLocationElement.id){
+        @for(housingLocationElement of filteredLocationList; track housingLocationElement.id){
         <app-housing-location [housingLocation]="housingLocationElement" />
         }
     </section>
